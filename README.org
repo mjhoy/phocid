@@ -1,0 +1,17 @@
+* phocid
+
+Generate simple HTML sites from directories with photographs.
+
+** usage
+
+phocid PHOTO_DIR [OUTPUT_DIR]
+
+** license
+
+GPLv2. See the [[./LICENSE][LICENSE]] file.
+
+** phocids
+
+[[./phocid.jpg]]
+
+/Habor Seal (Phoca vitulina)/ by [[https://www.flickr.com/photos/chuckthephotographer/1806637529/in/photolist-3KDuoV-5XqDvd-8yzGB4-e5ah9X-ryQd5q-5XmrJK-4GL5fQ-9h29js-6Rkvwa-5EAuyV-4jpPrX-8RCmAi-4W5RgP-4W5RNv-cu8mSN-f9GKPv-5GVHDR-7Dr3Qa-8UAbmV-87tFmy-uWg84v-5XqFsW-85RsJF-69N43m-9rc9Bj-oQ8Anb-9r9rjx-5GZYTG-quRm9T-9rdofL-9r9Rmg-9rc91b-6WZGNa-5ravCq-5r69H4-839mX3-oDWwvP-fDFNLB-d5XWbJ-d5xxXf-4SVbGa-ameen7-7aDtVS-d5xwUQ-d5xx5S-8y5JRo-6pyXUR-tbs4xJ-4VhtXx-xM2Jw5][Chuck Abbe on flickr]]
