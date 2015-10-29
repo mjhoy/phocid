@@ -1,6 +1,6 @@
 module Photo
        ( copiedPhotoPath
-       , photoTest
+       , isPhotoPath
        ) where
 
 import System.FilePath
@@ -12,8 +12,8 @@ copiedPhotoPath :: Photo -> FilePath
 copiedPhotoPath photo =
   "./images" </> getPath photo
 
-photoTest :: FilePath -> Bool
-photoTest path =
+isPhotoPath :: FilePath -> Bool
+isPhotoPath path =
   or $ map (== ext) [ ".jpg",
                       ".jpeg" ]
   where

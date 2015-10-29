@@ -5,7 +5,8 @@ let
   inherit (nixpkgs) pkgs;
 
   f = { mkDerivation, base, stdenv, cabal-install,
-        optparse-applicative, hsexif, shakespeare
+        optparse-applicative, hsexif, shakespeare,
+        hspec
    }:
       mkDerivation {
         pname = "phocid";
@@ -13,7 +14,12 @@ let
         src = ./.;
         isLibrary = false;
         isExecutable = true;
-        executableHaskellDepends = [ base optparse-applicative hsexif shakespeare ];
+        executableHaskellDepends = [ base
+                                     optparse-applicative
+                                     hsexif
+                                     shakespeare
+                                     hspec
+                                   ];
         buildTools = [ cabal-install ];
         description = "Generate a simple HTML site from a directory of photos";
         license = stdenv.lib.licenses.gpl2;

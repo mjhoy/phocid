@@ -61,7 +61,7 @@ photoFromPath path = do
 checkPhotos :: FilePath -> IO [Photo]
 checkPhotos inDir = do
   contents <- getDirectoryContents inDir
-  photos <- mapM photoFromPath $ filter photoTest contents
+  photos <- mapM photoFromPath $ filter isPhotoPath contents
   let photoN = length photos
       photoS = if photoN == 1 then "photo" else "photos"
   if photoN == 0

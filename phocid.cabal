@@ -28,3 +28,19 @@ executable phocid
                      , blaze-html >=0.8 && <0.9
   hs-source-dirs:      src
   default-language:    Haskell2010
+
+test-suite test-phocid
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test, src
+  main-is:             Main.hs
+  build-depends:       base >=4.8 && <4.9
+                     , optparse-applicative >=0.11 && <0.12
+                     , directory >=1.2 && <1.3
+                     , filepath  >=1.4 && <1.5
+                     , hsexif    >=0.6 && <0.7
+                     , shakespeare >=2.0.6 && <2.1
+                     , blaze-html >=0.8 && <0.9
+
+                       -- test depends
+                     , hspec
+  default-language:    Haskell2010

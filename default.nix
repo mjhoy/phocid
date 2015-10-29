@@ -1,13 +1,20 @@
-{ mkDerivation, base, stdenv,
-  optparse-applicative, hsexif, shakespeare, blaze-html
- }:
+{ mkDerivation, base, blaze-html, directory, filepath, hsexif
+, hspec, optparse-applicative, shakespeare, stdenv
+}:
 mkDerivation {
   pname = "phocid";
   version = "0.1.0.0";
   src = ./.;
   isLibrary = false;
   isExecutable = true;
-  executableHaskellDepends = [ base optparse-applicative hsexif shakespeare blaze-html ];
+  executableHaskellDepends = [
+    base blaze-html directory filepath hsexif optparse-applicative
+    shakespeare
+  ];
+  testHaskellDepends = [
+    base blaze-html directory filepath hsexif hspec
+    optparse-applicative shakespeare
+  ];
   description = "Generate a simple HTML site from a directory of photos";
   license = stdenv.lib.licenses.gpl2;
 }

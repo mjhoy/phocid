@@ -1,15 +1,21 @@
 {-# LANGUAGE QuasiQuotes #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Style (style) where
+module Style
+       ( style
+       , cssToHtml
+       ) where
 
 ------------------------------------------------------------------------------
 import Text.Lucius
-import Text.Blaze.Html (toHtml, Html)
+import Text.Blaze.Html (preEscapedToHtml, Html)
 ------------------------------------------------------------------------------
 
+cssToHtml :: Css -> Html
+cssToHtml = preEscapedToHtml . renderCss
+
 style :: Html
-style = toHtml $ renderCss $ [lucius|
+style = cssToHtml $ [lucius|
 
 body {
   background: #EBEBEB;
