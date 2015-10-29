@@ -5,7 +5,7 @@ module Types
 
 data Cmd = Cmd
   { inputDir  :: FilePath
-  , outputPath :: Maybe FilePath }
+  , outputPath :: FilePath }
   deriving (Show)
 
 data Photo = Photo

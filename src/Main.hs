@@ -7,7 +7,6 @@ module Main (main) where
 import Options.Applicative
 import System.Directory
 import System.FilePath
-import System.IO
 import System.Exit
 ------------------------------------------------------------------------------
 import Types
@@ -20,39 +19,27 @@ cmd = Cmd
       <$> ( argument str
             ( metavar "INPUT_DIR"
               <> help "Directory to scan for photos" ) )
-      <*> ( optional ( argument str
-                       ( metavar "OUTPUT_DIR"
-                         <> help "Output directory for site files" )))
+      <*> ( argument str
+            ( metavar "OUTPUT_DIR"
+              <> help "Output directory for site files" ))
 
--- run' fails if outputDir is Nothing
 run' :: Cmd -> [Photo] -> IO ()
 run' c photos = do
   absInDir <- makeAbsolute $ inputDir c
-  case outputPath c of
-    Just out -> do
-      outDirExists <- doesDirectoryExist out
-      if outDirExists
-        then die $ "Directory exists: " ++ out
-        else do
-          absOutDir <- makeAbsolute out
-          createDirectory absOutDir
-          let absImgDir = absOutDir </> "images"
-              photoPaths = map getPath photos
-          createDirectory absImgDir
-          mapM_ (\file -> (absInDir </> file) `copyFile` (absImgDir </> file)) photoPaths
-          let html = renderIndex photos
-          writeFile (absOutDir </> "index.html") html
-    Nothing  -> do
-      die "couldn't set outputDir"
-
--- helper function
-expandFilePath :: FilePath -> IO FilePath
-expandFilePath path = do
-  homeDir <- getHomeDirectory
-  case path of
-    ('~':'/':xs) -> return $ homeDir </> xs
-    ('~':[])     -> return homeDir
-    x -> return x
+  outDirExists <- doesDirectoryExist out
+  if outDirExists
+    then die $ "Directory exists: " ++ out
+    else do
+      absOutDir <- makeAbsolute out
+      createDirectory absOutDir
+      let absImgDir = absOutDir </> "images"
+          photoPaths = map getPath photos
+      createDirectory absImgDir
+      mapM_ (\file -> (absInDir </> file) `copyFile` (absImgDir </> file)) photoPaths
+      let html = renderIndex photos
+      writeFile (absOutDir </> "index.html") html
+  where
+    out = outputPath c
 
 photoFromPath :: FilePath -> IO Photo
 photoFromPath path = do
@@ -71,23 +58,7 @@ checkPhotos inDir = do
       return photos
 
 run :: Cmd -> IO ()
-run c = do
-  case outputPath c of
-    Just _ -> checkPhotos (inputDir c) >>= run' c
-    Nothing  -> do
-      photos <- checkPhotos (inputDir c)
-      askForOutputDirectory >>= \x -> run' (c { outputPath = Just x }) photos
-
-askForOutputDirectory :: IO String
-askForOutputDirectory = do
-  home <- getHomeDirectory
-  let def = home </> "export"
-  putStr $ "Enter an output directory [" ++ def ++ "]: "
-  hFlush stdout
-  dir <- getLine
-  case dir of
-    [] -> return def
-    x  -> expandFilePath x
+run c = checkPhotos (inputDir c) >>= run' c
 
 main :: IO ()
 main = customExecParser p opts >>= run
