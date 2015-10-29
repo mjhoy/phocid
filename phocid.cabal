@@ -24,7 +24,7 @@ executable phocid
                      , directory >=1.2 && <1.3
                      , filepath  >=1.4 && <1.5
                      , hsexif    >=0.6 && <0.7
-                     , shakespeare
+                     , shakespeare >=2.0.6 && <2.1
                      , blaze-html >=0.8 && <0.9
   hs-source-dirs:      src
   default-language:    Haskell2010
