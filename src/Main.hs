@@ -1,28 +1,19 @@
 {-# LANGUAGE QuasiQuotes #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Main where
+module Main (main) where
 
+------------------------------------------------------------------------------
 import Options.Applicative
 import System.Directory
 import System.FilePath
 import System.IO
 import System.Exit
-import Data.Char (toLower)
-
-import Text.Hamlet
-import Text.Lucius
-import Text.Blaze.Html.Renderer.String (renderHtml)
-import Text.Blaze.Html (toHtml)
-
-data Cmd = Cmd
-  { inputDir  :: FilePath
-  , outputPath :: Maybe FilePath }
-  deriving (Show)
-
-data Photo = Photo
-  { getPath :: FilePath }
-  deriving (Show)
+------------------------------------------------------------------------------
+import Types
+import Photo
+import Template
+------------------------------------------------------------------------------
 
 cmd :: Parser Cmd
 cmd = Cmd
@@ -32,76 +23,6 @@ cmd = Cmd
       <*> ( optional ( argument str
                        ( metavar "OUTPUT_DIR"
                          <> help "Output directory for site files" )))
-
-people :: [String]
-people = ["one"]
-
-style :: Html
-style = toHtml $ renderCss $ [lucius|
-body{background:#EBEBEB}
-ul.photos {
-  list-style: none;
-  margin: 0 20px;
-  padding: 0;
-}
-li {
-  margin: 150px 20px;
-  text-align: center;
-}
-li:first-child {
-  margin-top: 40px;
-}
-img { max-width: 100%; }
-h1 {
-  margin: 40px 20px 20px 20px;
-  text-align: center;
-  font-family: "Helvetica Neue", Helvetica, sans-serif;
-  font-weight: 500;
-}
-|] undefined
-
-htmlTemplate :: String ->       -- title
-                Html ->         -- body
-                Html
-htmlTemplate title body = [shamlet|
-$doctype 5
-<html>
-  <head>
-    <style>
-      ^{style}
-    <title>
-      #{title}
-    <body>
-      <h1>
-        #{title}
-      ^{body}
-|]
-
-photoTemplate :: Photo -> Html
-photoTemplate photo = [shamlet|
-<li class=photo>
-  <a href=#{path}>
-    <img src=#{path}>
-|]
-  where path = copiedPhotoPath photo
-
-copiedPhotoPath :: Photo -> FilePath
-copiedPhotoPath photo =
-  "./images" </> getPath photo
-
-photoTest :: FilePath -> Bool
-photoTest path =
-  or $ map (== ext) [ ".jpg",
-                      ".jpeg" ]
-  where
-    ext = map toLower $ takeExtension path
-
-renderIndex :: [Photo] -> String
-renderIndex photos = renderHtml $ htmlTemplate "Title Here" [shamlet|
-<ul class=photos>
-  $forall photo <- photos
-    ^{photoTemplate photo}
-|]
 
 -- run' fails if outputDir is Nothing
 run' :: Cmd -> [Photo] -> IO ()
