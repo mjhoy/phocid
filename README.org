@@ -2,9 +2,27 @@
 
 Generate simple HTML sites from directories with photographs.
 
+** install
+
+with cabal:
+
+#+begin_src sh
+git clone git@github.com:mjhoy/phocid.git
+cd phocid
+cabal install
+#+end_src
+
 ** usage
 
-phocid PHOTO_DIR [OUTPUT_DIR]
+#+BEGIN_SRC 
+Usage: phocid INPUT_DIR OUTPUT_DIR [--verbose]
+
+Available options:
+  -h,--help                Show this help text
+  INPUT_DIR                Directory to scan for photos
+  OUTPUT_DIR               Output directory for site files
+  --verbose                Verbose output
+#+END_SRC
 
 ** license
 
