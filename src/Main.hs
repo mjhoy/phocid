@@ -14,8 +14,8 @@ import Photo
 import Template
 ------------------------------------------------------------------------------
 
-cmd :: Parser Cmd
-cmd = Cmd
+phocid :: Parser Phocid
+phocid = Phocid
       <$> ( argument str
             ( metavar "INPUT_DIR"
               <> help "Directory to scan for photos" ) )
@@ -23,9 +23,9 @@ cmd = Cmd
             ( metavar "OUTPUT_DIR"
               <> help "Output directory for site files" ))
 
-run' :: Cmd -> [Photo] -> IO ()
-run' c photos = do
-  absInDir <- makeAbsolute $ inputDir c
+run' :: Phocid -> [Photo] -> IO ()
+run' p photos = do
+  absInDir <- makeAbsolute $ inputDir p
   outDirExists <- doesDirectoryExist out
   if outDirExists
     then die $ "Directory exists: " ++ out
@@ -39,7 +39,7 @@ run' c photos = do
       let html = renderIndex photos
       writeFile (absOutDir </> "index.html") html
   where
-    out = outputPath c
+    out = outputPath p
 
 photoFromPath :: FilePath -> IO Photo
 photoFromPath path = do
@@ -57,13 +57,13 @@ checkPhotos inDir = do
       putStrLn $ "OK, " ++ (show photoN) ++ " " ++ photoS ++ "  found"
       return photos
 
-run :: Cmd -> IO ()
-run c = checkPhotos (inputDir c) >>= run' c
+run :: Phocid -> IO ()
+run p = checkPhotos (inputDir p) >>= run' p
 
 main :: IO ()
 main = customExecParser p opts >>= run
   where
     p = prefs showHelpOnError
-    opts = info (helper <*> cmd)
+    opts = info (helper <*> phocid)
            ( fullDesc
-             <> header "phocin -- make simple html sites from photos" )
+             <> header "phocid -- make simple html sites from photos" )

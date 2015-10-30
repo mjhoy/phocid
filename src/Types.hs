@@ -1,12 +1,12 @@
 module Types
-       ( Cmd(..)
+       ( Phocid(..)
        , Photo(..)
          ) where
 
-data Cmd = Cmd
-  { inputDir  :: FilePath
-  , outputPath :: FilePath }
-  deriving (Show)
+data Phocid = Phocid
+  { inputDir   :: FilePath
+  , outputPath :: FilePath
+  } deriving (Show)
 
 data Photo = Photo
   { getPath :: FilePath }
