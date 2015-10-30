@@ -21,11 +21,14 @@ phocid = Phocid
       <*> ( argument str
             ( metavar "OUTPUT_DIR"
               <> help "Output directory for site files" ))
+      <*> ( switch
+            ( long "verbose"
+              <> help "Verbose output" ))
 
 runWithPhocid :: Phocid -> IO ()
 runWithPhocid p = do
   absInDir <- makeAbsolute $ inputDir p
-  photos <- checkPhotos $ absInDir
+  photos <- checkPhotos (verbose p) absInDir
   outDirExists <- doesDirectoryExist out
   if outDirExists
     then die $ "Directory exists: " ++ out

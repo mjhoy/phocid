@@ -5,6 +5,7 @@ module Types ( Phocid(..)
 data Phocid = Phocid
   { inputDir   :: FilePath
   , outputPath :: FilePath
+  , verbose :: Bool
   } deriving (Show)
 
 data Photo = Photo

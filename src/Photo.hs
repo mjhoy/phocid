@@ -13,8 +13,10 @@ import Data.Char (toLower)
 
 import Types
 
-checkPhotos :: FilePath -> IO [Photo]
-checkPhotos inDir = do
+checkPhotos :: Bool ->     -- verbose
+               FilePath -> -- directory to look in
+               IO [Photo]  -- parse and return Photo objects
+checkPhotos v inDir = do
   contents <- getDirectoryContents inDir
   photos <- mapM photoFromPath $ filter isPhotoPath contents
   let photoN = length photos
@@ -22,7 +24,9 @@ checkPhotos inDir = do
   if photoN == 0
     then die $ "No photos found in " ++ inDir
     else do
-      putStrLn $ "OK, " ++ (show photoN) ++ " " ++ photoS ++ "  found"
+      if v
+        then putStrLn $ "OK, " ++ (show photoN) ++ " " ++ photoS ++ "  found"
+        else return ()
       return photos
 
 photoFromPath :: FilePath -> IO Photo
