@@ -1,7 +1,6 @@
-module Types
-       ( Phocid(..)
-       , Photo(..)
-         ) where
+module Types ( Phocid(..)
+             , Photo(..)
+             ) where
 
 data Phocid = Phocid
   { inputDir   :: FilePath

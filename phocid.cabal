@@ -40,6 +40,7 @@ test-suite test-phocid
                      , hsexif    >=0.6 && <0.7
                      , shakespeare >=2.0.6 && <2.1
                      , blaze-html >=0.8 && <0.9
+                     , unix >=2.7.1 && <2.8
 
                        -- test depends
                      , hspec
