@@ -3,6 +3,7 @@ module Phocid ( phocid
               ) where
 
 ------------------------------------------------------------------------------
+import Data.List (sort)
 import Options.Applicative
 import System.Directory
 import System.FilePath
@@ -35,7 +36,7 @@ phocid = Phocid
 runWithPhocid :: Phocid -> IO ()
 runWithPhocid p = do
   absInDir <- makeAbsolute $ inputDir p
-  photos <- checkPhotos (verbose p) absInDir
+  photos <- sort <$> checkPhotos (verbose p) absInDir
   outDirExists <- doesDirectoryExist out
   if outDirExists
     then die $ "Directory exists: " ++ out

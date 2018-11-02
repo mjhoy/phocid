@@ -11,5 +11,8 @@ data Phocid = Phocid
 
 data Photo = Photo
   { getPath :: FilePath }
-  deriving (Show)
+  deriving (Show, Eq)
+
+instance Ord Photo where
+  p1 `compare` p2 = (getPath p1) `compare` (getPath p2)
 
