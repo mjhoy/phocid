@@ -12,8 +12,10 @@ import Photo
 import Types
 ------------------------------------------------------------------------------
 
-renderIndex :: [Photo] -> String
-renderIndex photos = renderHtml $ htmlTemplate "Title Here" [shamlet|
+renderIndex :: [Photo] ->
+               String ->        -- title
+               String
+renderIndex photos title = renderHtml $ htmlTemplate title [shamlet|
 <ul class=photos>
   $forall photo <- photos
     ^{photoTemplate photo}

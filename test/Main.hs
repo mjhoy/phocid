@@ -23,7 +23,8 @@ main = hspec $ do
   let removeTmpDir = removeDirectoryRecursive "/tmp/export"
   let testPhocid = Phocid { inputDir  = "test/test_photo_dir"
                           , outputPath = "/tmp/export"
-                          , verbose = False }
+                          , verbose = False
+                          , title = "untitled" }
   let testRunP = runWithPhocid testPhocid
 
   describe "Test run" $ before_ testRunP $ after_ removeTmpDir $ do

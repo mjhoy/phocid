@@ -24,6 +24,13 @@ phocid = Phocid
       <*> ( switch
             ( long "verbose"
               <> help "Verbose output" ))
+      <*> ( strOption
+            ( long "title"
+           <> short 't'
+           <> help "Site title"
+           <> showDefault
+           <> value "Untitled"
+           <> metavar "TITLE" ))
 
 runWithPhocid :: Phocid -> IO ()
 runWithPhocid p = do
@@ -39,7 +46,7 @@ runWithPhocid p = do
           photoPaths = map getPath photos
       createDirectory absImgDir
       mapM_ (\file -> (absInDir </> file) `copyFile` (absImgDir </> file)) photoPaths
-      let html = renderIndex photos
+      let html = renderIndex photos (title p)
       writeFile (absOutDir </> "index.html") html
   where
     out = outputPath p
